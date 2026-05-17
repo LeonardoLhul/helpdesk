@@ -1,0 +1,60 @@
+@model HelpDesk.Web.Models.Chamado
+
+@{
+    ViewData["Title"] = "Editar chamado";
+}
+
+<h1>Editar chamado</h1>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="UsuarioId" />
+    <input type="hidden" asp-for="Criado" />
+
+    <div class="mb-3">
+        <label asp-for="Titulo" class="form-label">Título</label>
+        <input asp-for="Titulo" class="form-control" />
+        <span asp-validation-for="Titulo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Descricao" class="form-label">Descrição</label>
+        <textarea asp-for="Descricao" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Descricao" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Categoria" class="form-label">Categoria</label>
+        <input asp-for="Categoria" class="form-control" />
+        <span asp-validation-for="Categoria" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Prioridade" class="form-label">Prioridade</label>
+        <select asp-for="Prioridade" class="form-select">
+            <option value="Baixa">Baixa</option>
+            <option value="Media">Média</option>
+            <option value="Alta">Alta</option>
+            <option value="Urgente">Urgente</option>
+        </select>
+        <span asp-validation-for="Prioridade" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label">Status</label>
+        <select asp-for="Status" class="form-select">
+            <option value="Aberto">Aberto</option>
+            <option value="EmAndamento">Em andamento</option>
+            <option value="Resolvido">Resolvido</option>
+            <option value="Cancelado">Cancelado</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Salvar alterações</button>
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

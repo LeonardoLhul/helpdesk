@@ -1,0 +1,48 @@
+@model HelpDesk.Web.Models.Chamado
+
+@{
+    ViewData["Title"] = "Excluir chamado";
+}
+
+<h1>Excluir chamado</h1>
+
+<div class="alert alert-danger">
+    Tem certeza que deseja excluir este chamado?
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <h4>@Model.Titulo</h4>
+
+        <hr />
+
+        <dl class="row">
+            <dt class="col-sm-3">Descrição</dt>
+            <dd class="col-sm-9">@Model.Descricao</dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.Status</dd>
+
+            <dt class="col-sm-3">Prioridade</dt>
+            <dd class="col-sm-9">@Model.Prioridade</dd>
+
+            <dt class="col-sm-3">Categoria</dt>
+            <dd class="col-sm-9">@Model.Categoria</dd>
+
+            <dt class="col-sm-3">Criado em</dt>
+            <dd class="col-sm-9">@Model.Criado.ToString("dd/MM/yyyy HH:mm")</dd>
+
+            <dt class="col-sm-3">Usuário</dt>
+            <dd class="col-sm-9">
+                @(Model.Usuario != null ? Model.Usuario.Nome : "Usuário não encontrado")
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post" class="mt-3">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">Confirmar exclusão</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

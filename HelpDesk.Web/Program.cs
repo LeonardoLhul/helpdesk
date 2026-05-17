@@ -1,4 +1,5 @@
 using HelpDesk.Web.Data;
+using HelpDesk.Web.Models;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -11,6 +12,25 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+    if (!context.Usuarios.Any())
+    {
+        var usuario = new Usuario
+        {
+            Nome = "Usuário Teste",
+            Email = "teste@helpdesk.com",
+            Senha = "123456",
+            Perfil = "Cliente"
+        };
+
+        context.Usuarios.Add(usuario);
+        context.SaveChanges();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

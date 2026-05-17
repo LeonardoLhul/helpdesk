@@ -1,0 +1,41 @@
+@model IEnumerable<HelpDesk.Web.Models.Chamado>
+
+@{
+    ViewData["Title"] = "Chamados";
+}
+
+<h1>Chamados</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Novo chamado</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Status</th>
+            <th>Prioridade</th>
+            <th>Categoria</th>
+            <th>Criado em</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var chamado in Model)
+        {
+            <tr>
+                <td>@chamado.Titulo</td>
+                <td>@chamado.Status</td>
+                <td>@chamado.Prioridade</td>
+                <td>@chamado.Categoria</td>
+                <td>@chamado.Criado.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@chamado.Id">Detalhes</a> |
+                    <a asp-action="Edit" asp-route-id="@chamado.Id">Editar</a> |
+                    <a asp-action="Delete" asp-route-id="@chamado.Id">Excluir</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

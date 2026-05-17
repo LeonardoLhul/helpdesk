@@ -1,0 +1,93 @@
+@model HelpDesk.Web.Models.Chamado
+
+@{
+    ViewData["Title"] = "Detalhes do chamado";
+}
+
+<h1>Detalhes do chamado</h1>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Titulo</h4>
+
+        <hr />
+
+        <dl class="row">
+            <dt class="col-sm-3">Descrição</dt>
+            <dd class="col-sm-9">@Model.Descricao</dd>
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.Status</dd>
+
+            <dt class="col-sm-3">Prioridade</dt>
+            <dd class="col-sm-9">@Model.Prioridade</dd>
+
+            <dt class="col-sm-3">Categoria</dt>
+            <dd class="col-sm-9">@Model.Categoria</dd>
+
+            <dt class="col-sm-3">Criado em</dt>
+            <dd class="col-sm-9">@Model.Criado.ToString("dd/MM/yyyy HH:mm")</dd>
+
+            <dt class="col-sm-3">Atualizado em</dt>
+            <dd class="col-sm-9">
+                @(Model.AtualizadoEm.HasValue 
+                    ? Model.AtualizadoEm.Value.ToString("dd/MM/yyyy HH:mm") 
+                    : "Ainda não atualizado")
+            </dd>
+
+            <dt class="col-sm-3">Finalizado em</dt>
+            <dd class="col-sm-9">
+                @(Model.FinalizadoEm.HasValue 
+                    ? Model.FinalizadoEm.Value.ToString("dd/MM/yyyy HH:mm") 
+                    : "Ainda não finalizado")
+            </dd>
+
+            <dt class="col-sm-3">Usuário</dt>
+            <dd class="col-sm-9">
+                @(Model.Usuario != null ? Model.Usuario.Nome : "Usuário não encontrado")
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Editar</a>
+    <a asp-action="Index" class="btn btn-secondary">Voltar</a>
+</div>
+
+@if (Model.Comentarios != null && Model.Comentarios.Any())
+{
+    <hr />
+
+    <h3>Comentários</h3>
+
+    @foreach (ComentarioChamado comentario in Model.Comentarios)
+    {
+        <div class="card mb-2">
+            <div class="card-body">
+                <p>@comentario.Mensagem</p>
+                <small class="text-muted">
+                    Por @(comentario.Usuario != null ? comentario.Usuario.Nome : "Usuário")
+                    em @comentario.CriadoEm.ToString("dd/MM/yyyy HH:mm")
+                </small>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <hr />
+    <p class="text-muted">Nenhum comentário registrado neste chamado.</p>
+}
+<h3>Adicionar comentário</h3>
+
+<form asp-action="AdicionarComentario" method="post">
+    <input type="hidden" name="chamadoId" value="@Model.Id" />
+
+    <div class="mb-3">
+        <label for="mensagem" class="form-label">Mensagem</label>
+        <textarea name="mensagem" id="mensagem" class="form-control" rows="4" placeholder="Digite um comentário sobre o chamado..."></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar comentário</button>
+</form>
