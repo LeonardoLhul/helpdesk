@@ -9,5 +9,6 @@
         public string Perfil { get; set; } = "Cliente";
         public DateTime Criado { get; set; } = DateTime.Now;
         public List<Chamado> ChamadosCriados { get; set; } = new();
+        public List<ComentarioChamado> Comentarios { get; set; } = new();
     }
 }
