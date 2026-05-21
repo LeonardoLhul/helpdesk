@@ -1,13 +1,8 @@
-using System.Drawing;
 using HelpDesk.Web.Data;
 using HelpDesk.Web.Models;
-using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
-using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+
 
 namespace HelpDesk.Web.Controllers
 {
@@ -117,6 +112,11 @@ namespace HelpDesk.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AdicionarComentario(int chamadoId, string mensagem)
         {
+            var UsuarioId = HttpContext.Session.GetInt32("UsuarioID");
+            if (!UsuarioId.HasValue)
+            {
+                return RedirectToAction("Login", "Auth");
+            }
             if (string.IsNullOrWhiteSpace(mensagem))
             {
                 return RedirectToAction(nameof(Details), new { id = chamadoId});
@@ -139,5 +139,6 @@ namespace HelpDesk.Web.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Details), new { id = chamadoId});
         }
+
     }
 }
